@@ -12,15 +12,19 @@ from sklearn import metrics
 import seaborn as sns
  
 # read dataset from URL
-url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+#url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
 cls = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class']
-dataset = pd.read_csv(url, names=cls)
+#dataset = pd.read_csv(url, names=cls)
+dataset=pd.read_csv("C:\\Users\\DELL\\Desktop\\Iris data.csv",names=cls)
 print(dataset)
 
 # divide the dataset into class and target variable
-X = dataset.iloc[:, 0:4].values # Run Loop froom 0 to 4-1=3
+#X = dataset.iloc[:, 0:4].values # Run Loop froom 0 to 4-1=3
+X=dataset.drop('Class', axis=1)
 print("Features = \n",X ,"\n")
-y = dataset.iloc[:, 4].values #pick the Last column
+# Remove column name 'Class'
+y=dataset["Class"]
+#y = dataset.iloc[:, 4].values #pick the Last column
 print("Class label = \n",y ,"\n")
 
 # Preprocess the dataset and divide into train and test
@@ -28,7 +32,7 @@ sc = StandardScaler()
 X = sc.fit_transform(X)
 le = LabelEncoder()
 y = le.fit_transform(y)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
 # Training data set
 print("X_train= \n",X_train)
 print("X_test= \n",X_test)
@@ -63,8 +67,8 @@ print(classification_report(y_test, y_pred))
 sns.heatmap(conf_m, 
             annot=True,
             fmt='g', 
-            xticklabels=['0','1','2'],
-            yticklabels=['0','1','2'])
+            xticklabels=['Iris-setosa','Iris-versicolor','Iris-virginica'],
+            yticklabels=['Iris-setosa','Iris-versicolor','Iris-virginica'])
 plt.ylabel('Prediction',fontsize=12)
 plt.xlabel('Actual',fontsize=12)
 plt.title('Confusion Matrix',fontsize=17)
